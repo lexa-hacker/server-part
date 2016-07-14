@@ -27,10 +27,16 @@ export function index(req, res) {
   return User.findAll({
     attributes: [
       '_id',
-      'name',
-      'email',
       'role',
-      'provider'
+      'provider',
+      'first_name',
+      'last_name',
+      'phone',
+      'about',
+      'gender',
+      'country',
+      'avatar',
+      'email'
     ]
   })
     .then(users => {
@@ -43,6 +49,7 @@ export function index(req, res) {
  * Creates a new user
  */
 export function create(req, res, next) {
+  console.log(req.body);
   var newUser = User.build(req.body);
   newUser.setDataValue('provider', 'local');
   newUser.setDataValue('role', 'user');

@@ -15,7 +15,13 @@ module.exports = function(sequelize, DataTypes) {
       primaryKey: true,
       autoIncrement: true
     },
-    name: DataTypes.STRING,
+    first_name: DataTypes.STRING,
+    last_name: DataTypes.STRING,
+    phone: DataTypes.STRING,
+    about: DataTypes.TEXT,
+    gender: DataTypes.STRING,
+    country: DataTypes.STRING,
+    avatar: DataTypes.TEXT,
     email: {
       type: DataTypes.STRING,
       unique: {
@@ -48,7 +54,16 @@ module.exports = function(sequelize, DataTypes) {
       profile: function() {
         return {
           'name': this.name,
-          'role': this.role
+          'role': this.role,
+          'provider': this.provider,
+          'first_name': this.first_name,
+          'last_name': this.last_name,
+          'phone': this.phone,
+          'about': this.about,
+          'gender': this.gender,
+          'country': this.country,
+          'avatar': this.avatar,
+          'email': this.email
         };
       },
 
