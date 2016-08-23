@@ -49,7 +49,6 @@ export function index(req, res) {
  * Creates a new user
  */
 export function create(req, res, next) {
-  console.log(req.body);
   var newUser = User.build(req.body);
   newUser.setDataValue('provider', 'local');
   newUser.setDataValue('role', 'user');
@@ -58,6 +57,51 @@ export function create(req, res, next) {
         res.status(200).json(user);
 })
 .catch(validationError(res));
+}
+
+// Updates an existing User in the DB
+export function update(req, res) {
+  console.log(req.params.id);
+  if (req.body._id) {
+    delete req.body._id;
+  }
+  return User.find({
+    where: {
+      _id: req.params.id
+    }
+  })
+      .then(handleEntityNotFound(res))
+      .then(saveUpdates(req.body))
+      .then(respondWithResult(res))
+      .catch(handleError(res));
+}
+
+function respondWithResult(res, statusCode) {
+  statusCode = statusCode || 200;
+  return function(entity) {
+    if (entity) {
+      res.status(statusCode).json(entity);
+    }
+  };
+}
+
+function saveUpdates(updates) {
+  return function(entity) {
+    return entity.updateAttributes(updates)
+            .then(updated => {
+          return updated;
+  });
+};
+}
+
+function handleEntityNotFound(res) {
+  return function(entity) {
+    if (!entity) {
+      res.status(404).end();
+      return null;
+    }
+    return entity;
+  };
 }
 
 /**
