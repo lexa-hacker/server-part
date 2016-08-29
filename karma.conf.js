@@ -14,6 +14,7 @@ module.exports = function(config) {
       // bower:js
       'client/bower_components/jquery/dist/jquery.js',
       'client/bower_components/select2/dist/js/select2.js',
+      'client/bower_components/requirejs/require.js',
       // endbower
       'client/app/app.js',
       'client/{app,components}/**/*.module.js',

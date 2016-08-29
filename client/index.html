@@ -27,24 +27,16 @@
       <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
 
-    <div class="container">
-      <div class="header">
-        <ul class="nav nav-pills pull-right">
-          <li class="active"><a href="#">Home</a></li>
-          <li><a href="#">About</a></li>
-          <li><a href="#">Contact</a></li>
-        </ul>
-        <h3 class="text-muted">Custom JS App</h3>
-      </div>
+    <!--div class="container"-->
       <div class="jumbotron">
-        <form name="myform">
+        <form name="myform" data-id="">
           <div class="form-group">
             <label for="firstName" class="control-label required">First Name</label>
-            <input type="text" class="form-control" id="firstName" name="firstName" placeholder="Your name">
+            <input type="text" class="form-control" id="firstName" name="first_name" placeholder="Your name">
           </div>
           <div class="form-group">
             <label for="lastName" class="control-label">Last Name</label>
-            <input type="text" class="form-control" id="lastName" name="lastName" placeholder="Your surname">
+            <input type="text" class="form-control" id="lastName" name="last_name" placeholder="Your surname">
           </div>
           <div class="form-group">
             <label for="email" class="control-label required">E-mail</label>
@@ -60,11 +52,15 @@
           </div>
           <div class="form-group">
             <label for="gender" class="control-label required">Gender</label>
-            <select class="form-control" name="gender" id="gender"></select>
+            <select class="form-control" name="gender" id="gender">
+              <option></option>
+            </select>
           </div>
           <div class="form-group" id="grp">
             <label for="country" class="control-label">Country</label>
-            <select class="form-control" name="country" id="country"></select>
+            <select class="form-control" name="country" id="country">
+              <option></option>
+            </select>
           </div>
           <div class="form-group">
             <label for="password" class="control-label">Password</label>
@@ -75,27 +71,40 @@
             <input type="file" id="avatar" name="avatar">
           </div>
           <div class="center">
-            <button type="submit" class="btn btn-sm btn-primary" id="button">Отправить</button>
+            <button type="submit" class="btn btn-sm btn-primary" id="button">Confirm</button>
           </div>
         </form>
-      </div>
-      <div class="row marketing">
-        <div class="col-lg-6">
-          <h4>HTML5 Boilerplate</h4>
-          <p>HTML5 Boilerplate is a professional front-end template for building fast, robust, and adaptable web apps or sites.</p>
-
-          <h4>Sass</h4>
-          <p>Sass is the most mature, stable, and powerful professional grade CSS extension language in the world.</p>
-
-          <h4>Bootstrap</h4>
-          <p>Sleek, intuitive, and powerful mobile first front-end framework for faster and easier web development.</p>
+        <div class="view">
+          <a id="usr-view">show all users</a>
         </div>
       </div>
-
-      <div class="footer">
-        <p>♥ from the Yeoman team</p>
+    <!--/div-->
+    <div id="users-container" hidden class="jumbotron--tbl">
+      <table id="users-list">
+        <tbody>
+          <tr>
+            <th>ID</th>
+            <th>Role</th>
+            <th>Provider</th>
+            <th>First name</th>
+            <th>Last name</th>
+            <th>E-mail</th>
+            <th>Phone</th>
+            <th>About</th>
+            <th>Gender</th>
+            <th>Country</th>
+            <!--td>Password</td-->
+            <!--th>Avatar</th-->
+            <th>Actions</th>
+          </tr>
+        </tbody>
+        <tbody id="custom"></tbody>
+      </table>
+      <div class="view">
+        <a id="form-view">show form</a>
       </div>
     </div>
+
 
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
     <script>
@@ -111,6 +120,7 @@
     <!-- bower:js -->
     <script src="bower_components/jquery/dist/jquery.js"></script>
     <script src="bower_components/select2/dist/js/select2.js"></script>
+    <script data-main="scripts/main" src="bower_components/requirejs/require.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
@@ -130,7 +140,7 @@
     <!-- endbuild -->
 
     <!-- select2 script -->
-    <script src="/bower_components/select2/dist/js/select2.js"></script>
+    <!--script src="/bower_components/select2/dist/js/select2.js"></script-->
 
     <!-- build:js scripts/main.js -->
     <script src="scripts/main.js"></script>
