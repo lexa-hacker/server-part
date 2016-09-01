@@ -86,38 +86,38 @@ require(['jquery', 'select2', 'model', 'view'], function(jquery, select2, model,
 
 	function makeLoveWithAjax(message){
 
-		var type = model.ajaxReqType.get();
+		var type = model.ajaxReqType.get(),
+			aroundFunc, 
+			method, 
+			url = 'http://localhost:9000/api/users/',
+			id = document.forms.myform.dataset.id;
 
 		switch(type){
 			case 0:
-				var creating = new XMLHttpRequest();
-				creating.onreadystatechange = function(){aroundCreating(this);};
-				creating.open('POST', 'http://localhost:9000/api/users', true);
-				creating.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-				creating.send(message);
+				aroundFunc = function(){aroundCreating(this);};
+				method = 'POST'; 
 				break;
 			case 1:
-				var updating = new XMLHttpRequest();
-				updating.onreadystatechange = function(){aroundUpdating(this);};
-				updating.open('PUT', 'http://localhost:9000/api/users/' + document.forms.myform.dataset.id, true);
-				updating.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-				updating.send(message);
+				aroundFunc = function(){aroundUpdating(this);};
+				method = 'PUT'; 
+				url = url + id;
 				break;
 			case 2:
-				var getusrs = new XMLHttpRequest();
-				getusrs.onreadystatechange = function(){aroundGetting(this);};
-				getusrs.open('GET', 'http://localhost:9000/api/users', true);
-				getusrs.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-				getusrs.send();
+				aroundFunc = function(){aroundGetting(this);};
+				method = 'GET'; 
 				break;
 			case 3:
-				var deleting = new XMLHttpRequest();
-				deleting.onreadystatechange = function(){aroundDeleting(this);};
-				deleting.open('DELETE', 'http://localhost:9000/api/users/' + document.forms.myform.dataset.id, true);
-				deleting.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-				deleting.send();
+				aroundFunc = function(){aroundDeleting(this);};
+				method = 'DELETE'; 
+				url = url + id;
 				break;
 		}
+
+		var XHR = new XMLHttpRequest();
+		XHR.onreadystatechange = aroundFunc;
+		XHR.open(method, url, true);
+		XHR.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+		XHR.send(message);
 
 		model.ajaxReqType.reset();
 		document.forms.myform.dataset.id = "";

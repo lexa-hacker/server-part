@@ -20,41 +20,16 @@ define(['jquery', 'model'], function(jquery, model){
 
 	function refillingForm(tblData){
 		var forma = document.forms.myform;
-		forma.elements.first_name.value = tblData.cells[3].innerHTML;
-		forma.elements.last_name.value = tblData.cells[4].innerHTML;
-		forma.elements.email.value = tblData.cells[5].innerHTML;
-		forma.elements.phone.value = tblData.cells[6].innerHTML;
-		forma.elements.about.value = tblData.cells[7].innerHTML;
-		$('#gender').val(tblData.cells[8].innerHTML);
+		for(var i=0; i<5; i++){
+			var ii = i==2?7:(i<2)?3:2;
+			forma.elements[i].value = tblData.cells[i+ii].innerHTML;
+		}
+		$('#gender').val(tblData.cells[7].innerHTML);
 		$('#gender').trigger("change");
-		$('#country').val(tblData.cells[9].innerHTML);
+		$('#country').val(tblData.cells[8].innerHTML);
 		$('#country').trigger("change");
 		//forma.elements.password.value = ; // it must not be filled, because password 
 		//forma.elements.avatar.value = ; // avatar is very strange right now
-	}
-
-	function showResponse(jsonResponse){
-		jsonResponse = JSON.parse(jsonResponse);
-		alert("Congratulations!\nYou have created an user:\nID : " + 
-			jsonResponse._id + 
-			"\nFirst name : " + 
-			jsonResponse.first_name + 
-			"\nLast name : " + 
-			jsonResponse.last_name + 
-			"\nE-mail : " + 
-			jsonResponse.email + 
-			"\nPhone number : " +
-			jsonResponse.phone + 
-			"\nAbout me : " + 
-			jsonResponse.about +
-			"\nGender : " + 
-			jsonResponse.gender +
-			"\nCountry : " +
-			jsonResponse.country + 
-			"\nPassword : " +
-			jsonResponse.password + 
-			"\nAvatar : " +
-			jsonResponse.avatar);
 	}
 
 	function clearUserList(){
@@ -101,20 +76,18 @@ define(['jquery', 'model'], function(jquery, model){
 			}else{
 				var jsonList = JSON.parse(request.responseText);
 				var tablePart = document.getElementById("custom");
+
 				for(var i=0; i<jsonList.length; i++){
-					tablePart.innerHTML += "<tr><td>" + 
-					jsonList[i]._id + "</td><td>" + 
-					jsonList[i].role + "</td><td>" + 
-					jsonList[i].provider + "</td><td>" + 
-					jsonList[i].first_name + "</td><td>" + 
-					jsonList[i].last_name + "</td><td>" + 
-					jsonList[i].email + "</td><td>" + 
-					jsonList[i].phone + "</td><td>" + 
-					jsonList[i].about + "</td><td>" + 
-					jsonList[i].gender + "</td><td>" + 
-					jsonList[i].country + "</td><td class='actions'>" + 
-					//jsonList[i].avatar +
-					"<button value='del'>Del</button><button value='rev'>Upd</button></td></tr>";
+					var tr = document.createElement('tr');
+					for(var key in jsonList[i]){
+						var td = document.createElement('td');
+						if(key!="profile" && key!="token" && key!="avatar" && key!="email"){
+							td.innerHTML = jsonList[i][key];
+							tr.appendChild(td);
+						}
+					}
+					tr.innerHTML += "<td>" + jsonList[i].email + "</td><td class='actions'><button value='del'>Del</button><button value='rev'>Upd</button></td>";
+					tablePart.appendChild(tr);
 				}
 			}
 		}
